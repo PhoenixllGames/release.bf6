@@ -71,6 +71,10 @@
         .content {
             z-index: 1;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
 
         .eapl-hero__logo {
@@ -83,6 +87,11 @@
         #countdown {
             font-size: 2rem;
             letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         #countdown span {
@@ -93,17 +102,76 @@
             border-radius: 5px;
         }
 
+        .preorder-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #ff6200; /* Брендовый цвет для кнопки */
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .preorder-button:hover {
+            background-color: #e55a00;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Мобильная версия */
         @media (max-width: 768px) {
-            .eapl-hero__logo {
-                max-width: 80%;
+            .content {
+                padding: 10px;
             }
+
+            .eapl-hero__logo {
+                max-width: 70%; /* Уменьшаем логотип для мобильных */
+            }
+
             #countdown {
-                font-size: 1.5rem;
+                font-size: 1.2rem; /* Уменьшаем размер шрифта таймера */
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center; /* Центрируем элементы таймера по вертикали */
+                gap: 5px;
+            }
+
+            #countdown span {
+                margin: 5px;
+                padding: 8px;
+            }
+
+            .preorder-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .eapl-hero__logo {
+                max-width: 60%;
+            }
+
+            #countdown {
+                font-size: 1rem;
+                justify-content: center;
+                align-items: center; /* Центрируем элементы таймера по вертикали */
+            }
+
+            #countdown span {
+                margin: 3px;
+                padding: 6px;
+            }
+
+            .preorder-button {
+                font-size: 0.9rem;
+                padding: 8px 15px;
             }
         }
     </style>
@@ -112,7 +180,7 @@
     <video autoplay muted loop id="bg-video">
         <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-16x9-xl.mp4" type="video/mp4">
         <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-lg-md-3x2.mp4" type="video/mp4">
-        <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-stacked-sm-xs-1x1.mp4" type="video/mp4">
+        <source src="https://Intl_Stage_Prod.content.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-stacked-sm-xs-1x1.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -122,7 +190,7 @@
             <source media="(max-width: 767px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.767w.png">
             <source media="(max-width: 1023px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1023w.png">
             <source media="(max-width: 1455px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1455w.png">
-            <source media="(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop16x9.1920w.png">
+            <source media Sacramento, CA 95834(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop16x9.1920w.png">
             <img class="eapl-hero__logo" src="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.320w.png" alt="White Battlefield 6 logo">
         </picture>
         <div id="countdown">
@@ -131,6 +199,7 @@
             <span id="minutes">00</span> Minutes
             <span id="seconds">00</span> Seconds
         </div>
+        <a href="https://store.steampowered.com/app/2807960/Battlefield_6/" class="preorder-button" target="_blank" title="Pre-Order Now">Pre-Order Now</a>
     </div>
 
     <script>
