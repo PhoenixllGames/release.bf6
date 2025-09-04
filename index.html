@@ -1,0 +1,165 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battlefield 6</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(50%); /* Затемнение видео для лучшей читаемости текста */
+        }
+
+        .content {
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .eapl-hero__logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+            animation: fadeIn 2s ease-in;
+        }
+
+        #countdown {
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        #countdown span {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .eapl-hero__logo {
+                max-width: 80%;
+            }
+            #countdown {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-16x9-xl.mp4" type="video/mp4">
+        <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-lg-md-3x2.mp4" type="video/mp4">
+        <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-stacked-sm-xs-1x1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="content">
+        <picture>
+            <source media="(max-width: 320px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.320w.png">
+            <source media="(max-width: 767px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.767w.png">
+            <source media="(max-width: 1023px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1023w.png">
+            <source media="(max-width: 1455px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1455w.png">
+            <source media="(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop16x9.1920w.png">
+            <img class="eapl-hero__logo" src="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.320w.png" alt="White Battlefield 6 logo">
+        </picture>
+        <div id="countdown">
+            <span id="days">00</span> Days
+            <span id="hours">00</span> Hours
+            <span id="minutes">00</span> Minutes
+            <span id="seconds">00</span> Seconds
+        </div>
+    </div>
+
+    <script>
+        // Устанавливаем дату выхода игры: 10 октября 2025 года
+        const releaseDate = new Date('October 10, 2025 00:00:00').getTime();
+
+        // Обновляем таймер каждую секунду
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = releaseDate - now;
+
+            // Вычисляем дни, часы, минуты и секунды
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Отображаем значения
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            // Если время вышло, останавливаем таймер
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById('countdown').textContent = 'Game Released!';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
