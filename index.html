@@ -92,14 +92,40 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+            gap: 10px;
         }
 
-        #countdown span {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px;
+        .timer-block {
+            display: flex;
+            align-items: center;
             background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
             border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .timer-block .label {
+            margin-left: 5px; /* Отступ для метки после значения на ПК */
+        }
+
+        .timer-block .value {
+            font-weight: bold;
+        }
+
+        .label-days::after {
+            content: "Days";
+        }
+
+        .label-hours::after {
+            content: "Hours";
+        }
+
+        .label-minutes::after {
+            content: "Minutes";
+        }
+
+        .label-seconds::after {
+            content: "Seconds";
         }
 
         .preorder-button {
@@ -142,9 +168,47 @@
                 gap: 5px;
             }
 
-            #countdown span {
-                margin: 5px;
+            .timer-block {
                 padding: 8px;
+                margin: 3px;
+                flex-direction: row-reverse; /* Меняем порядок: значение перед меткой */
+            }
+
+            .timer-block .label {
+                margin-left: 0;
+                margin-right: 5px; /* Отступ для метки перед значением */
+            }
+
+            .label-days::after {
+                content: none;
+            }
+
+            .label-hours::after {
+                content: none;
+            }
+
+            .label-minutes::after {
+                content: none;
+            }
+
+            .label-seconds::after {
+                content: none;
+            }
+
+            .label-days::before {
+                content: "D: ";
+            }
+
+            .label-hours::before {
+                content: "H: ";
+            }
+
+            .label-minutes::before {
+                content: "M: ";
+            }
+
+            .label-seconds::before {
+                content: "S: ";
             }
 
             .preorder-button {
@@ -164,9 +228,9 @@
                 align-items: center; /* Центрируем элементы таймера по вертикали */
             }
 
-            #countdown span {
-                margin: 3px;
+            .timer-block {
                 padding: 6px;
+                margin: 2px;
             }
 
             .preorder-button {
@@ -180,7 +244,7 @@
     <video autoplay muted loop id="bg-video">
         <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-16x9-xl.mp4" type="video/mp4">
         <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-lg-md-3x2.mp4" type="video/mp4">
-        <source src="https://Intl_Stage_Prod.content.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-stacked-sm-xs-1x1.mp4" type="video/mp4">
+        <source src="https://media.contentapi.ea.com/content/dam/battlefield/videos/2025/07/bf-hub-hero-lg-homepage-stacked-sm-xs-1x1.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -190,14 +254,14 @@
             <source media="(max-width: 767px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.767w.png">
             <source media="(max-width: 1023px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1023w.png">
             <source media="(max-width: 1455px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop3x2.1455w.png">
-            <source media Sacramento, CA 95834(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop16x9.1920w.png">
+            <source media="(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop16x9.1920w.png">
             <img class="eapl-hero__logo" src="https://media.contentapi.ea.com/content/dam/battlefield/common/logos/battlefield-6-logo.png.adapt.crop1x1.320w.png" alt="White Battlefield 6 logo">
         </picture>
         <div id="countdown">
-            D:<span id="days">00</span>
-            H:<span id="hours">00</span>
-            M:<span id="minutes">00</span>
-            S:<span id="seconds">00</span>
+            <div class="timer-block"><span class="value" id="days">00</span><span class="label label-days"></span></div>
+            <div class="timer-block"><span class="value" id="hours">00</span><span class="label label-hours"></span></div>
+            <div class="timer-block"><span class="value" id="minutes">00</span><span class="label label-minutes"></span></div>
+            <div class="timer-block"><span class="value" id="seconds">00</span><span class="label label-seconds"></span></div>
         </div>
         <a href="https://store.steampowered.com/app/2807960/Battlefield_6/" class="preorder-button" target="_blank" title="Pre-Order Now">Pre-Order Now</a>
     </div>
